@@ -91,7 +91,7 @@
       <p></p>
       <p></p>
       <p></p>
-      <p><a href="maps://?ll=xxxxxx,yyyyyy&q=Approximate%20Location">Approximate Location</a></p>
+      <p><a href="maps://?ll=xxxxxx,yyyyyy&q=Approximate%20Location"></a></p>
     </div>
     <div id="flagBox">
       <img id="flag" src="">
@@ -109,6 +109,7 @@
       console.log(clock)
 
       ipcRenderer.invoke('getIPInfo').then((ip) => {
+        console.log(ip);
         document.querySelector('title').innerHTML = `IP Address Info - ${ip.ip}`;
         document.querySelector('h1').innerHTML = ip.ip;
         document.querySelector('p:nth-child(2)').innerHTML = `ISP: ${ip.connection.isp}`;
