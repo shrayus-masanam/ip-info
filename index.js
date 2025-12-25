@@ -14,8 +14,10 @@ let ip_info;
 (async function() {
     if (!argv[2] || argv[2].trim() == "") return app.quit();
     let req = await fetch("https://ipwho.is/" + argv[2].trim());
-    ip_info = await req.json();
-    if (!ip_info.success) {
+    try {
+        ip_info = await req.json();
+    } catch (e) {console.log(e)}
+    if (!req.ok || !ip_info.success) {
         //console.log(ip_info);
         shell.openExternal("https://whatismyipaddress.com/ip/" + argv[2]).then(() => {
             app.quit();
@@ -32,7 +34,10 @@ let ip_info;
 })();
 
 
-const createMainWindow = () => {
+const createMainWindow = async () => {
+    while (ip_info == null) {
+        await new Promise(r => setTimeout(r, 100));
+    }
     nativeTheme.themeSource = 'dark' // force light mode titlebar
     var mainWindow;
         mainWindow = new BrowserWindow({
